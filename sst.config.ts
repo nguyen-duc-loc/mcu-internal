@@ -78,5 +78,13 @@ export default $config({
         JWT_SECRET: process.env.JWT_SECRET!,
       },
     });
+    // Get customer by id
+    api.route("GET /customers/{id}", {
+      handler: "functions/customers/getById.handler",
+      link: [customersTable],
+      environment: {
+        JWT_SECRET: process.env.JWT_SECRET!,
+      },
+    });
   },
 });
