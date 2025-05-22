@@ -68,6 +68,14 @@ export default $config({
         JWT_SECRET: process.env.JWT_SECRET!,
       },
     });
+    // Get all users (only admin)
+    api.route("GET /users", {
+      handler: "functions/users/getAll.handler",
+      link: [usersTable],
+      environment: {
+        JWT_SECRET: process.env.JWT_SECRET!,
+      },
+    });
     // Get user by id (only admin and authorized)
     api.route("GET /users/{id}", {
       handler: "functions/users/getById.handler",

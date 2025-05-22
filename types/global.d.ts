@@ -30,6 +30,8 @@ interface UserModel {
 }
 type User = Omit<UserModel, "hashedPassword">;
 type CreateUserResponseData = User;
+type GetAllUsersResponseData = User[];
+type GetUserByIdResponseData = User | null;
 
 type Status = "proceeding" | "completed";
 interface CustomerModel {
