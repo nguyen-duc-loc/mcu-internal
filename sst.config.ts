@@ -84,6 +84,14 @@ export default $config({
         JWT_SECRET: process.env.JWT_SECRET!,
       },
     });
+    // Update user role by id (only admin)
+    api.route("PUT /users/{id}/role", {
+      handler: "functions/users/updateRoleById.handler",
+      link: [usersTable],
+      environment: {
+        JWT_SECRET: process.env.JWT_SECRET!,
+      },
+    });
     // Get me (only authorized)
     api.route("GET /me", {
       handler: "functions/users/getMe.handler",

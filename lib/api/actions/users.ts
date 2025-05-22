@@ -29,3 +29,19 @@ export const createUser = async (data: UserData) => {
 
   return response;
 };
+
+export const updateRoleById = async (userId: string, role: Role) => {
+  const response = await fetchHandler(`${API_BASE_URL}/users/${userId}/role`, {
+    method: "PUT",
+    headers: {
+      Authorization: await createAuthHeader(),
+    },
+    body: JSON.stringify({ role }),
+  });
+
+  if (response.success) {
+    revalidateTag(TAGS.users);
+  }
+
+  return response;
+};
