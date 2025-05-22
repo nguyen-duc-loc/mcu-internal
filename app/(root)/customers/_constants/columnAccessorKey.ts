@@ -1,4 +1,5 @@
 export const COLUMN_ACCESSOR_KEYS = {
+  customerID: "id",
   customerName: "name",
   funding: "funding",
   proservice: "proservice",

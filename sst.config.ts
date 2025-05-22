@@ -94,5 +94,13 @@ export default $config({
         JWT_SECRET: process.env.JWT_SECRET!,
       },
     });
+    // Delete customer (except viewer)
+    api.route("DELETE /customers/{id}", {
+      handler: "functions/customers/deleteById.handler",
+      link: [customersTable, usersTable],
+      environment: {
+        JWT_SECRET: process.env.JWT_SECRET!,
+      },
+    });
   },
 });

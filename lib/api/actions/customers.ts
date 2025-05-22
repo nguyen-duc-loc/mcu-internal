@@ -29,3 +29,22 @@ export const createCustomer = async (data: CustomerData) => {
 
   return response;
 };
+
+export const deleteCustomerById = async (customerId: string) => {
+  const response = await fetchHandler(
+    `${API_BASE_URL}/customers/${customerId}`,
+    {
+      method: "DELETE",
+      headers: {
+        Authorization: await createAuthHeader(),
+      },
+    }
+  );
+
+  if (response.success) {
+    revalidateTag(TAGS.customers);
+    redirect(ROUTES.customers);
+  }
+
+  return response;
+};

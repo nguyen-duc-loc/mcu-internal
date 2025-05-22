@@ -7,15 +7,26 @@ import { formatMoney } from "@/lib/utils";
 
 import { COLUMN_ACCESSOR_KEYS } from "../../_constants/columnAccessorKey";
 import { COLUMN_IDS } from "../../_constants/columnId";
+import Link from "next/link";
+import ROUTES from "@/constants/routes";
 
 export const columns: ColumnDef<Customer>[] = [
+  {
+    accessorKey: COLUMN_ACCESSOR_KEYS.customerID,
+    accessorFn: (row) => row.id,
+    enableHiding: true,
+    filterFn: (row, id, value) => value.includes(row.getValue(id)),
+  },
   {
     accessorKey: COLUMN_ACCESSOR_KEYS.customerName,
     header: () => <div className="text-center">Name</div>,
     cell: ({ row }) => (
-      <div className="line-clamp-2 max-w-[200px] px-4 hover:underline hover:underline-offset-2">
+      <Link
+        href={ROUTES.customer(row.getValue(COLUMN_ACCESSOR_KEYS.customerID))}
+        className="line-clamp-2 max-w-[200px] px-4 hover:underline hover:underline-offset-2"
+      >
         {row.getValue(COLUMN_ACCESSOR_KEYS.customerName)}
-      </div>
+      </Link>
     ),
   },
   {
