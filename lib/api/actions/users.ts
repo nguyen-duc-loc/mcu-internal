@@ -45,3 +45,35 @@ export const updateRoleById = async (userId: string, role: Role) => {
 
   return response;
 };
+
+export const deleteUserById = async (userId: string) => {
+  const response = await fetchHandler(`${API_BASE_URL}/users/${userId}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: await createAuthHeader(),
+    },
+  });
+
+  if (response.success) {
+    revalidateTag(TAGS.users);
+    redirect(ROUTES.users);
+  }
+
+  return response;
+};
+
+export const updateMe = async (data: UpdateUserInformationData) => {
+  const response = await fetchHandler(`${API_BASE_URL}/me`, {
+    method: "PUT",
+    headers: {
+      Authorization: await createAuthHeader(),
+    },
+    body: JSON.stringify(data),
+  });
+
+  if (response.success) {
+    revalidateTag(TAGS.users);
+  }
+
+  return response;
+};

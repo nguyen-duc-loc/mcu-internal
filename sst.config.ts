@@ -92,6 +92,14 @@ export default $config({
         JWT_SECRET: process.env.JWT_SECRET!,
       },
     });
+    // Delete user (only admin)
+    api.route("DELETE /users/{id}", {
+      handler: "functions/users/deleteById.handler",
+      link: [usersTable],
+      environment: {
+        JWT_SECRET: process.env.JWT_SECRET!,
+      },
+    });
     // Get me (only authorized)
     api.route("GET /me", {
       handler: "functions/users/getMe.handler",
@@ -138,6 +146,14 @@ export default $config({
     api.route("DELETE /customers/{id}", {
       handler: "functions/customers/deleteById.handler",
       link: [customersTable, usersTable],
+      environment: {
+        JWT_SECRET: process.env.JWT_SECRET!,
+      },
+    });
+    // Update user information by id (only authorized)
+    api.route("PUT /me", {
+      handler: "functions/users/updateMe.handler",
+      link: [usersTable],
       environment: {
         JWT_SECRET: process.env.JWT_SECRET!,
       },

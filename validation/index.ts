@@ -58,3 +58,30 @@ export const UserSchema = z.object({
   }),
 });
 export type UserData = z.infer<typeof UserSchema>;
+
+export const UpdateUserInformationSchema = UserSchema.omit({
+  role: true,
+  password: true,
+});
+export type UpdateUserInformationData = z.infer<
+  typeof UpdateUserInformationSchema
+>;
+
+export const UpdatePasswordSchema = UserSchema.pick({
+  password: true,
+})
+  .extend({
+    confirmPassword: UserSchema.shape.password,
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+  });
+export type UpdatePasswordData = z.infer<typeof UpdatePasswordSchema>;
+
+export const AppearanceSchema = z.object({
+  theme: z.enum(["light", "dark", "system"], {
+    required_error: "Please select a theme.",
+  }),
+});
+export type AppearanceData = z.infer<typeof AppearanceSchema>;
