@@ -1,3 +1,5 @@
+@tailwind utilities;
+
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -118,5 +120,19 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  :root {
+    --color-chart-primary: hsl(var(--primary));
+  }
+
+  .font-sans {
+    @apply font-[family-name:var(--font-geist-sans)];
+  }
+
+  .font-mono {
+    @apply font-[family-name:var(--font-geist-mono)];
   }
 }
