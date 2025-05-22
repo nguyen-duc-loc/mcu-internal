@@ -12,17 +12,11 @@ import ROUTES from "@/constants/routes";
 
 export const columns: ColumnDef<Customer>[] = [
   {
-    accessorKey: COLUMN_ACCESSOR_KEYS.customerID,
-    accessorFn: (row) => row.id,
-    enableHiding: true,
-    filterFn: (row, id, value) => value.includes(row.getValue(id)),
-  },
-  {
     accessorKey: COLUMN_ACCESSOR_KEYS.customerName,
     header: () => <div className="text-center">Name</div>,
     cell: ({ row }) => (
       <Link
-        href={ROUTES.customer(row.getValue(COLUMN_ACCESSOR_KEYS.customerID))}
+        href={ROUTES.customer(row.original.id)}
         className="line-clamp-2 max-w-[200px] px-4 hover:underline hover:underline-offset-2"
       >
         {row.getValue(COLUMN_ACCESSOR_KEYS.customerName)}

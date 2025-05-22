@@ -38,7 +38,6 @@ interface DataTableProps {
 const CustomersDataTable = ({ data }: DataTableProps) => {
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({
-      [COLUMN_ACCESSOR_KEYS.customerID]: false,
       [COLUMN_ACCESSOR_KEYS.endYear]: false,
       [COLUMN_ACCESSOR_KEYS.endQuarter]: false,
       [COLUMN_ACCESSOR_KEYS.endMonth]: false,
