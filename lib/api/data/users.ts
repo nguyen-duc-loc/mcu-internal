@@ -5,6 +5,19 @@ import { TAGS } from "@/constants/tags";
 
 import { API_BASE_URL } from "../url";
 
+export const getUserById = async (userId: string, authHeader: string) => {
+  const response = await fetchHandler(`${API_BASE_URL}/users/${userId}`, {
+    headers: {
+      Authorization: authHeader,
+    },
+    next: {
+      tags: [TAGS.users],
+    },
+  });
+
+  return (response.data || null) as GetUserByIdResponseData;
+};
+
 export const getMe = async (authHeader: string) => {
   const response = await fetchHandler(`${API_BASE_URL}/me`, {
     headers: {
