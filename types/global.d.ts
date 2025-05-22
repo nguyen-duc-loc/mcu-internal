@@ -16,6 +16,11 @@ type LoginResponseData = {
   token: string;
 };
 
+type Role = "admin" | "editor" | "viewer";
+type GetRoleResponseData = {
+  role: string;
+};
+
 interface UserModel {
   id: string;
   email: string;
@@ -23,3 +28,18 @@ interface UserModel {
   hashedPassword: string;
   role: Role;
 }
+type User = Omit<UserModel, "hashedPassword">;
+
+type Status = "proceeding" | "completed";
+interface CustomerModel {
+  id: string;
+  name: string;
+  status: Status;
+  proservice: number;
+  funding: number;
+  credit: number;
+  win: boolean;
+  endDate?: string;
+}
+type Customer = CustomerModel;
+type CreateCustomerResponseData = Customer;

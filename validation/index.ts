@@ -12,3 +12,27 @@ export const LoginSchema = z.object({
     .max(50, { message: "Password cannot exceed 50 characters." }),
 });
 export type LoginData = z.infer<typeof LoginSchema>;
+
+export const statusOptions = ["proceeding", "completed"] as const;
+export const CustomerSchema = z.object({
+  name: z
+    .string()
+    .min(1, { message: "Customer name is required." })
+    .max(50, { message: "Customer name cannot exceed 50 characters." }),
+  status: z.enum(statusOptions, {
+    message: `Invalid status. Available statuses are ${statusOptions.join(
+      ", "
+    )}.`,
+  }),
+
+  funding: z.number().min(0, { message: "Funding cannot be negative." }),
+
+  proservice: z.number().min(0, { message: "Proservice cannot be negative." }),
+
+  credit: z.number().min(0, { message: "Credit cannot be negative." }),
+
+  endDate: z.optional(z.string()),
+
+  win: z.boolean(),
+});
+export type CustomerData = z.infer<typeof CustomerSchema>;

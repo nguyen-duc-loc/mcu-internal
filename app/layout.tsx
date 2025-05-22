@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import ProgressBarProvider from "@/contexts/progressbar";
+import { Toaster } from "sonner";
+import { ThemeProvider } from "@/contexts/theme";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -23,15 +26,25 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <main className="font-sans">{children}</main>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <ProgressBarProvider>
+            <main className="font-sans">{children}</main>
+          </ProgressBarProvider>
+          <Toaster richColors />
+        </ThemeProvider>
       </body>
     </html>
   );

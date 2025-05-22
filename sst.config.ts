@@ -30,6 +30,15 @@ export default $config({
       },
     });
 
+    const customersTable = new sst.aws.Dynamo("CustomersTable", {
+      fields: {
+        id: "string",
+      },
+      primaryIndex: {
+        hashKey: "id",
+      },
+    });
+
     // ----------------------------------- //
     // API Gateway handle client requests  //
     // ----------------------------------- //
@@ -47,6 +56,26 @@ export default $config({
       environment: {
         JWT_SECRET: process.env.JWT_SECRET!,
         JWT_MAX_AGE: process.env.JWT_MAX_AGE!,
+      },
+    });
+
+    // Users API
+    // Get me (only authorized)
+    api.route("GET /me", {
+      handler: "functions/users/getMe.handler",
+      link: [usersTable],
+      environment: {
+        JWT_SECRET: process.env.JWT_SECRET!,
+      },
+    });
+
+    // CustomersAPI
+    // Create customer (except viewer)
+    api.route("POST /customers", {
+      handler: "functions/customers/create.handler",
+      link: [customersTable, usersTable],
+      environment: {
+        JWT_SECRET: process.env.JWT_SECRET!,
       },
     });
   },
