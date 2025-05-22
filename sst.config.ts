@@ -158,5 +158,13 @@ export default $config({
         JWT_SECRET: process.env.JWT_SECRET!,
       },
     });
+    // Update user information by id (only authorized)
+    api.route("PUT /me/password", {
+      handler: "functions/users/updatePassword.handler",
+      link: [usersTable],
+      environment: {
+        JWT_SECRET: process.env.JWT_SECRET!,
+      },
+    });
   },
 });

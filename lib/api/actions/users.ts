@@ -6,7 +6,11 @@ import { redirect } from "next/navigation";
 import { fetchHandler } from "@/api/fetch";
 import ROUTES from "@/constants/routes";
 import { TAGS } from "@/constants/tags";
-import { UserData } from "@/validation";
+import {
+  UpdatePasswordData,
+  UpdateUserInformationData,
+  UserData,
+} from "@/validation";
 
 import { createAuthHeader } from "../auth-header";
 import { API_BASE_URL } from "../url";
@@ -74,6 +78,18 @@ export const updateMe = async (data: UpdateUserInformationData) => {
   if (response.success) {
     revalidateTag(TAGS.users);
   }
+
+  return response;
+};
+
+export const updatePassword = async (data: UpdatePasswordData) => {
+  const response = await fetchHandler(`${API_BASE_URL}/me/password`, {
+    method: "PUT",
+    headers: {
+      Authorization: await createAuthHeader(),
+    },
+    body: JSON.stringify(data),
+  });
 
   return response;
 };
