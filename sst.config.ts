@@ -60,6 +60,14 @@ export default $config({
     });
 
     // Users API
+    // Create user (only admin)
+    api.route("POST /users", {
+      handler: "functions/users/create.handler",
+      link: [usersTable],
+      environment: {
+        JWT_SECRET: process.env.JWT_SECRET!,
+      },
+    });
     // Get me (only authorized)
     api.route("GET /me", {
       handler: "functions/users/getMe.handler",

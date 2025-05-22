@@ -36,3 +36,25 @@ export const CustomerSchema = z.object({
   win: z.boolean(),
 });
 export type CustomerData = z.infer<typeof CustomerSchema>;
+
+export const roleOptions = ["admin", "editor", "viewer"] as const;
+export const UserSchema = z.object({
+  fullName: z
+    .string()
+    .min(1, { message: "Name is required." })
+    .max(50, { message: "Name cannot exceed 50 characters." }),
+  email: z
+    .string()
+    .min(1, { message: "Email is required" })
+    .email({ message: "Please provide a valid email address." }),
+
+  password: z
+    .string()
+    .min(8, { message: "Password must be at least 8 characters." })
+    .max(50, { message: "Password cannot exceed 50 characters." }),
+
+  role: z.enum(roleOptions, {
+    message: `Invalid role. Available roles are ${roleOptions.join(", ")}.`,
+  }),
+});
+export type UserData = z.infer<typeof UserSchema>;

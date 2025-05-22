@@ -29,6 +29,7 @@ interface UserModel {
   role: Role;
 }
 type User = Omit<UserModel, "hashedPassword">;
+type CreateUserResponseData = User;
 
 type Status = "proceeding" | "completed";
 interface CustomerModel {
