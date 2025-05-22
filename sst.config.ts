@@ -70,6 +70,14 @@ export default $config({
     });
 
     // CustomersAPI
+    // Get all customers
+    api.route("GET /customers", {
+      handler: "functions/customers/getAll.handler",
+      link: [customersTable],
+      environment: {
+        JWT_SECRET: process.env.JWT_SECRET!,
+      },
+    });
     // Create customer (except viewer)
     api.route("POST /customers", {
       handler: "functions/customers/create.handler",

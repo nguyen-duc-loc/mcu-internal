@@ -43,4 +43,5 @@ interface CustomerModel {
 }
 type Customer = CustomerModel;
 type CreateCustomerResponseData = Customer;
+type GetAllCustomersResponseData = Customer[];
 type GetCustomerByIdResponseData = Customer | null;
