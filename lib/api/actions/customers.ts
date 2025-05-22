@@ -30,6 +30,29 @@ export const createCustomer = async (data: CustomerData) => {
   return response;
 };
 
+export const updateCustomerById = async (
+  customerId: string,
+  data: CustomerData
+) => {
+  const response = await fetchHandler(
+    `${API_BASE_URL}/customers/${customerId}`,
+    {
+      method: "PUT",
+      headers: {
+        Authorization: await createAuthHeader(),
+      },
+      body: JSON.stringify(data),
+    }
+  );
+
+  if (response.success) {
+    revalidateTag(TAGS.customers);
+    redirect(ROUTES.customer(customerId));
+  }
+
+  return response;
+};
+
 export const deleteCustomerById = async (customerId: string) => {
   const response = await fetchHandler(
     `${API_BASE_URL}/customers/${customerId}`,
