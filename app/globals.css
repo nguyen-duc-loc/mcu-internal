@@ -124,10 +124,6 @@
 }
 
 @layer utilities {
-  :root {
-    --color-chart-primary: hsl(var(--primary));
-  }
-
   .font-sans {
     @apply font-[family-name:var(--font-geist-sans)];
   }

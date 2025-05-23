@@ -1,3 +1,5 @@
+type SettingsTab = "information" | "account" | "appearance";
+
 type ActionResponse<T = null> = {
   success: boolean;
   data?: T;

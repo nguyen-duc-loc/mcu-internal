@@ -61,7 +61,7 @@ export const handler = async (
     );
     if (
       queryExistingUserResult.Count &&
-      email !== queryRequestedUserResult.Items?.[0].email
+      email !== queryExistingUserResult.Items?.[0].email
     ) {
       throw new ConflictError("Email already exists");
     }
