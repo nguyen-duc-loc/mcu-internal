@@ -26,6 +26,8 @@ jobs:
           AWS_REGION: ${{ secrets.AWS_REGION }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          JWT_MAX_AGE: ${{ secrets.JWT_MAX_AGE }}
         run: npx sst deploy --stage=$STAGE | tail -n 2 | grep -o 'https://[^[:space:]]*' > api_url.txt
 
       - name: Upload API URL
