@@ -38,7 +38,8 @@ jobs:
         uses: hashicorp/setup-terraform@v3
 
       - name: Init Terraform
-        run: cd deploy
+        run: |
+          cd deploy
           terraform init -upgrade
 
       - name: Deploy
