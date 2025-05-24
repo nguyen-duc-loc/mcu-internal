@@ -45,10 +45,11 @@ jobs:
       - name: Deploy
         run: |
           cd deploy
-          export TF_VAR_api_base_url=$(cat api_url.txt)
+          export TF_VAR_api_base_url=$(cat ../api_url.txt)
           export TF_VAR_region=$AWS_REGION
           export TF_VAR_allowed_ports_from_public_to_web=[80,22]
           export TF_VAR_jwt_secret=$JWT_SECRET
           export TF_VAR_jwt_max_age=$JWT_MAX_AGE
+          export TF_VAR_private_key=${{ secrets.SSH_PRIVATE_KEY }}
           terraform plan
           terraform apply --auto-approve
