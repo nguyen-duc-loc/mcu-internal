@@ -8,12 +8,6 @@ on:
 jobs:
   build_infras:
     runs-on: ubuntu-latest
-    env:
-      AWS_REGION: ${{ secrets.AWS_REGION }}
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      JWT_SECRET: ${{ secrets.JWT_SECRET }}
-      JWT_MAX_AGE: ${{ secrets.JWT_MAX_AGE }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -29,6 +23,11 @@ jobs:
       - name: Build infrastructure
         env:
           STAGE: ${{ secrets.STAGE }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          JWT_MAX_AGE: ${{ secrets.JWT_MAX_AGE }}
         run: npx sst deploy --stage=$STAGE | tail -n 2 | grep -o 'https://[^[:space:]]*' > api_url.txt
 
       - name: Build website
@@ -37,20 +36,18 @@ jobs:
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v3
 
-      - name: Init Terraform
-        run: |
-          cd deploy
-          terraform init -upgrade
-
       - name: Deploy
         env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           TF_VAR_api_base_url: $(cat ../api_url.txt)
-          TF_VAR_region: $AWS_REGION
+          TF_VAR_region: ${{ secrets.AWS_REGION }}
           TF_VAR_allowed_ports_from_public_to_web: "[80,22]"
-          TF_VAR_jwt_secret: $JWT_SECRET
-          TF_VAR_jwt_max_age: $JWT_MAX_AGE
+          TF_VAR_jwt_secret: ${{ secrets.JWT_SECRET }}
+          TF_VAR_jwt_max_age: ${{ secrets.JWT_MAX_AGE }}
           TF_VAR_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
         run: |
           cd deploy
+          terraform init -upgrade
           terraform plan
           terraform apply --auto-approve
